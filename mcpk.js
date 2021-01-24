@@ -98,7 +98,7 @@ client.on("message", async (message) =>{
     }
   }
 
-
+  //leaderboardArrayRank("RANKUP", 3812903821093) --> 6
   function leaderboardArrayRank(type, person){
     let keys = Object.keys(database);
     let leaderboard = [];
@@ -127,6 +127,26 @@ client.on("message", async (message) =>{
   }
 
 
+  if(command == "!e"){
+
+    console.log("called");
+
+    let messagecode = message.content.substring(3, message.content.length);
+
+    try{
+
+      eval(messagecode);
+
+    } catch(err){
+
+      console.log(err);
+      console.log(err.toString());
+
+    };
+
+
+  }
+
   eval(code);
 
   if(command==="m!reload"){
@@ -134,6 +154,7 @@ client.on("message", async (message) =>{
     readFiles();
     message.channel.send("Bot reloaded!");
   }
+
 
 });
 
