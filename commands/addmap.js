@@ -2,8 +2,6 @@ if(command == "m!addmap"){
 
   let person = message.mentions.members.first();
 
-  if(!person) return message.channel.send("Provide a person");
-
   let map = args[2];
 
   console.log(map);
