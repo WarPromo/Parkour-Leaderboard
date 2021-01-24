@@ -22,38 +22,15 @@ let searchedCommands = {
 
 };
 
-/*
-fs.readdir("./commands", (err, files) => {
-  files.forEach(async file => {
-
-    let functionname = file.substring(0, file.length - 5);
-    let fileRead = `${functionname}(); async function ${functionname}(){ `
-    fileRead += await fs.readFileSync(`./commands/${file}`, "utf8");
-    fileRead += `}`;
-
-    code += fileRead;
-
-  });
-});
-*/
-
-
-//-----------
 
 function readFiles(){
   fs.readdir("./commands", (err, files) => {
     files.forEach(async file => {
 
-      //lol the new version i made wroked lets try it
-      //okay
-      //put it in comment
-      //also im gonna try running this first
-
       let fileRead = await fs.readFileSync(`./commands/${file}`, "utf8");
       let functionName = file.substring(0, file.length - 3);
 
-      console.log(functionName);
-      //i have the old function code want me to put it yea ok wait
+      console.log("Loaded" + functionName);
       code += `${functionName}();`
       code += `async function ${functionName}(){`
       code += fileRead;
@@ -77,7 +54,7 @@ client.on('ready', () => {
 client.on("message", async (message) =>{
 
   let content = message.content.toUpperCase();
-  let args = content.split(" ");
+  let args = content.split(' ').filter(item => item)
   let command = args[0].toLowerCase();
   let channelname = message.channel.name;
   let isstaff = false;
