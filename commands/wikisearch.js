@@ -4,21 +4,24 @@ if(command == "m!search"){
 
   if(!args[1]) return message.channel.send("Provide a search term");
 
-  let term = args[1];
+  let term = content.substring(8, message.content.length);
 
-  let url = `https://www.mcpk.wiki/w/index.php?search=${args[1]}&title=Special%3ASearch&profile=default&fulltext=1`
+  let url = `https://www.mcpk.wiki/w/index.php?search=${term}&title=Special%3ASearch&profile=default&fulltext=1`
 
   request(url, async (error, response, body) => {
 
     let embed = new Discord.RichEmbed();
 
-    embed.addField("MCPK WIKI", "PAGE 0 " + args[1] + " ( Grabbed from https://www.mcpk.wiki/w/index.php?search ) ");
+    embed.addField("MCPK WIKI", "PAGE 0 " + term);
 
     let convertToCheerio = cheerio.load(body);
 
     let searchArray = convertToCheerio(`li[class=mw-search-result]`);
 
     if(searchArray.length == 0) return message.channel.send("No results found");
+
+
+    embed.addField("Results", searchArray.length);
 
     searchArray.each( (i, part) => {
       let text = convertToCheerio(part).text();
@@ -32,7 +35,7 @@ if(command == "m!search"){
       if(i < 4) embed.addField(title, newtext);
     });
 
-    searchedCommands[args[1]] = body;
+    searchedCommands[term] = body;
 
     let m = await message.channel.send(embed);
     await m.react("◀️");

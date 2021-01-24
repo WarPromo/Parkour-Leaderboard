@@ -1,6 +1,6 @@
 if(command == "m!rank"){
 
-  let types = [];
+  let types = ["ALL"];
 
   let player = message.mentions.members.first();
 
@@ -30,10 +30,14 @@ if(command == "m!rank"){
   let embed = new Discord.RichEmbed();
 
   embed.setThumbnail(profile);
+  embed.setColor("YELLOW");
 
 
   for(var a = 0 ; a < types.length; a++){
-    embed.addField(types[a] + ":", "#" + leaderboardArrayRank(types[a], database[player]["name"] ) )
+    let rank = leaderboardArrayRank(types[a], database[player]["name"]);
+    let points = totalPointsType(player, types[a])
+    if(types[a] == "ALL") points = totalPoints(player, types[a]);
+    embed.addField(types[a] + ":", `#${rank}\nPoints: ${points}` );
   }
 
   message.channel.send(embed);

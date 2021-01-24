@@ -5,27 +5,28 @@ if(command == "m!addcollection"){
   let player = message.mentions.members.first();
   let element = args[3];
 
+  if(!args[1]) return message.channel.send("Provide a player");
+  if(!collection) return message.channel.send(`Invalid Collection "${args[2]}"`);
+  if(!player){
+
+    if(message.guild.members.get(args[1])+""!="undefined") player = message.guild.members.get(args[1]);
+    else return message.channel.send(`Invalid Player "${args[2]}"`);
+  }
+
+  if(!element) return message.channel.send("Provide a map");
+  if(player.id in database == false) return message.channel.send("Player not in database");
+  if(collection.indexOf(element) == -1) return message.channel.send(`Map "${element}" not in collection`);
+
+  let originalpoints = totalPoints(player.id);
+  let addedCollections = "";
+  let playerInfo = database[player.id];
+
   for(var a = 0; a < collection.length; a++) if(collection[a] in maps) correctarr.push(collection[a]);
   console.log(correctarr);
   if(`${collection}` != `${correctarr}`){
     collections[args[2]] = correctarr;
     fs.writeFileSync("collections.json", JSON.stringify(collections));
   }
-
-  if(!args[1]) return message.channel.send("Provide a player");
-  if(!collection) return message.channel.send("Invalid Collection");
-  if(!player){
-
-    if(message.guild.members.get(args[1])+""!="undefined") player = message.guild.members.get(args[1]);
-    else return message.channel.send("Invalid Player");
-  }
-
-  if(!element) return message.channel.send("Provide a map");
-  if(player.id in database == false) return message.channel.send("Player not in database");
-
-  let originalpoints = totalPoints(player.id);
-  let addedCollections = "";
-  let playerInfo = database[player.id];
 
   for(var a = 0; a < collection.length; a++){
     if(collection[a]+""==element){

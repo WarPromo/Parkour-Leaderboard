@@ -21,6 +21,9 @@ if(command == "m!profile" || command == "m!p"){
 
   mapKeys = database[person.id]["maps"];
 
+  let mapDatabase = Object.keys(maps);
+
+
   Loop1: for(var a = 0; a < mapKeys.length; a++){
 
     console.log(mapKeys[a]);
@@ -38,6 +41,8 @@ if(command == "m!profile" || command == "m!p"){
   }
 
 
+
+
   const exampleEmbed = new Discord.RichEmbed();
 
   let globalRank = leaderboardArrayRank( "ALL", database[person.id]["name"] );
@@ -48,8 +53,18 @@ if(command == "m!profile" || command == "m!p"){
   exampleEmbed.addField('Global-Rank', "#"+globalRank);
 
   for(var a = 0; a < mapArray.length; a++){
+
     let mapString = "";
     let rank = leaderboardArrayRank( mapArray[a][0], database[person.id]["name"] );
+    let total = 0;
+    let totalpoints = totalPointsType( person.id, mapArray[a][0] );
+
+
+    for(var b = 0; b < mapDatabase.length; b++){
+      if(maps[mapDatabase[b]]["type"] == mapArray[a][0]+""){
+        total++;
+      }
+    }
 
     mapArray[a][1].sort( function(a,b){ return -a[1] + b[1] } );
 
@@ -57,8 +72,9 @@ if(command == "m!profile" || command == "m!p"){
       mapString += `${mapArray[a][1][b][0]}: ${mapArray[a][1][b][1]} points\n`;
     }
 
-    exampleEmbed.addField(`Type: ${mapArray[a][0]}\nRank: #${rank}`, mapString, true);
+    exampleEmbed.addField(`Type: ${mapArray[a][0]}\nRank: #${rank}\nBeaten ${mapArray[a][1].length} / ${total}\nPoints: ${totalpoints}`, mapString, true);
   }
+
 
 
   exampleEmbed.setThumbnail(person.user.avatarURL);
