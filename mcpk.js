@@ -104,25 +104,25 @@ client.on("message", async (message) =>{
   }
 
 
-  if(command == "!e"){
+//   if(command == "!e"){
 
-    console.log("called");
+//     console.log("called");
 
-    let messagecode = message.content.substring(3, message.content.length);
+//     let messagecode = message.content.substring(3, message.content.length);
 
-    try{
+//     try{
 
-      eval(messagecode);
+//       eval(messagecode);
 
-    } catch(err){
+//     } catch(err){
 
-      console.log(err);
-      console.log(err.toString());
+//       console.log(err);
+//       console.log(err.toString());
 
-    };
+//     };
 
 
-  }
+//   }
 
   eval(code);
 
