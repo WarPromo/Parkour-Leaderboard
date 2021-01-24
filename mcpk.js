@@ -68,7 +68,7 @@ readFiles();
 //nope i only see my folder which is this cbeck discord
 //do you see the folder "commands"
 // btw the token and server is set to my bot
-client.login("NzEyMTA0ODE1MDE4Mzc3MjY3.XsMtSg.dW7Pv4kQIOXU3JHUax9UBLv3nqg");
+client.login("ODAxOTY0MTg2MzEzMjkzODM1.YAoVWQ.c0oNzb7mhvP6F-Lk71B-I-wWorE");
 
 client.on('ready', () => {
   console.log("Logged in as " + client.user.tag);
@@ -82,7 +82,7 @@ client.on("message", async (message) =>{
   let channelname = message.channel.name;
   let isstaff = false;
 
-  if(message.guild.id == 794265001060859934){
+  if(message.guild.id == 793172726767550484){
     message.member.roles.forEach(role => {
       if(role.name == "Staff") isstaff = true;
     })
