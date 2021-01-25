@@ -42,7 +42,7 @@ function readFiles(){
 
 readFiles();
 
-client.login("NzEyMTA0ODE1MDE4Mzc3MjY3.XsMtSg.dW7Pv4kQIOXU3JHUax9UBLv3nqg");
+client.login("ODAxOTY0MTg2MzEzMjkzODM1.YAoVWQ.c0oNzb7mhvP6F-Lk71B-I-wWorE");
 
 client.on('ready', () => {
   console.log("Logged in as " + client.user.tag);
@@ -54,7 +54,7 @@ client.on("message", async (message) =>{
   let args = content.split(' ');
   let command = args[0].toLowerCase();
   let channelname = message.channel.name;
-  let isstaff = true;
+  let isstaff = false;
 
   if(message.guild.id != 793172726767550484) return;
 

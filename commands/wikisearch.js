@@ -2,6 +2,8 @@
 
 if(command == "m!search"){
 
+  console.log("Command called");
+
   if(!args[1]) return message.channel.send("Provide a search term");
   let term = content.substring(8, message.content.length);
   let url = `https://www.mcpk.wiki/w/index.php?search=${term}&title=Special%3ASearch&profile=default&fulltext=1`
@@ -85,7 +87,7 @@ if(command == "m!search"){
     [
       ["Title", "Text"], ["Title", "Text"],
       ["Title", "Text"], ["Title", "Text"],
-    ], 
+    ],
     [
       ["Title", "Text"], ["Title", "Text"],
       ["Title", "Text"], ["Title", "Text"],
@@ -102,7 +104,10 @@ if(command == "m!search"){
     embed.addField("MCPK SEARCH", `PAGE ${page} ${term}`)
 
     for(var a = 0; a < wikipage.length; a++){
-      embed.addField(wikipage[a][0], wikipage[a][1]);
+      let link = wikipage[a][0].split(" ").join("_");
+      let string = "```";
+      link = `https://www.mcpk.wiki/w/index.php?search=${link}&title=Special%3ASearch&go=Go`
+      embed.addField(wikipage[a][0], `[Link](${link}) \n${string}${wikipage[a][1]}${string}`);
     }
 
     return embed;
