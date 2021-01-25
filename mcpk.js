@@ -30,7 +30,7 @@ function readFiles(){
       let fileRead = await fs.readFileSync(`./commands/${file}`, "utf8");
       let functionName = file.substring(0, file.length - 3);
 
-      console.log("Loaded" + functionName);
+      console.log("Loaded " + file);
       code += `${functionName}();`
       code += `async function ${functionName}(){`
       code += fileRead;
@@ -58,11 +58,15 @@ client.on("message", async (message) =>{
 
   if(message.guild.id != 793172726767550484) return;
 
+  console.log("Got here");
+
   message.member.roles.forEach(role => {
     if(role.name == "Staff"){
       isstaff = true;
     }
   })
+
+  console.log("Got here");
 
   if(adminCommands.indexOf(command) != -1 && isstaff == false){
     let randomNumber = Math.floor( Math.random()*1001 )
@@ -175,10 +179,6 @@ function totalPoints(person){
       points += maps[arr[a]]["amount"];
     }
   }
-
-  //Refresh User
-  addPointRoles(person);
-
 
   return points;
 }
