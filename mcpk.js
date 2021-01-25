@@ -54,7 +54,7 @@ client.on("message", async (message) =>{
   let args = content.split(' ');
   let command = args[0].toLowerCase();
   let channelname = message.channel.name;
-  let isstaff = true;
+  let isstaff = false;
 
   if(message.guild.id != 793172726767550484) return;
 
