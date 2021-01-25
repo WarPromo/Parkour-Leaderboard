@@ -1,6 +1,49 @@
 if(command == "m!listcollections"){
 
-  console.log("This command");
+  let pageNumber = 0;
+
+  let array = createCollectionArray();
+  let embed = collectionEmbed(0, array);
+
+  let embedMessage = await message.channel.send(embed);
+
+  function reactionFilter(reaction, user){
+    if(user == client.user) return false;
+    if(reaction.emoji.name == "▶️" || reaction.emoji.name == "◀️") return true;
+    else return false;
+  }
+
+  await embedMessage.react("◀️");
+  await embedMessage.react("▶️");
+
+  let collector = embedMessage.createReactionCollector(reactionFilter, { time: 120000 })
+
+  collector.on("collect", async (element, collector) => {
+
+    let currentArray = createCollectionArray();
+    let embed;
+    let user = element.users.last();
+
+    console.log(Object.keys(element));
+
+    if(element._emoji.name == "▶️") pageNumber++;
+    if(element._emoji.name == "◀️") pageNumber--;
+
+    if(pageNumber < 0) pageNumber = 0;
+    if(pageNumber > currentArray.length-1) pageNumber = currentArray.length-1;
+
+    embed = collectionEmbed(pageNumber, currentArray);
+
+    embedMessage.edit( embed );
+    element.remove( user );
+
+  })
+
+
+
+}
+
+function createCollectionArray(){
 
   let arr = [];
   let keys = Object.keys(collections);
@@ -22,19 +65,35 @@ if(command == "m!listcollections"){
 
   }
 
+  return arr;
+
+}
+
+
+function collectionEmbed(page, arr){
+
   let embed = new Discord.RichEmbed();
-  embed.addField("Collections", "Page 0");
 
-  let collection = arr[0];
+  /*
+  arr =
+  [
 
+    [ "CollectionName1", [ ["Mapname", "points"], ["Mapname", "points"] ],
+    [ "CollectionName2", [ ["Mapname", "points"], ["Mapname", "points"] ]
+    [ "CollectionName3", [ ["Mapname", "points"], ["Mapname", "points"] ]
+
+  ]
+  */
+
+  collection = arr[page];
+
+  embed.addField("Collections", `Page ${page}`);
   embed.addField("Collection: ", collection[0]);
 
   for(var a = 0; a < collection[1].length; a++){
     embed.addField(`${collection[1][a][0]}`, `Points: ${collection[1][a][1]}\n Type: ${collection[1][a][2]}`, true);
   }
 
-  let m = await message.channel.send(embed);
-  await m.react("◀️");
-  await m.react("▶️");
+  return embed;
 
 }
