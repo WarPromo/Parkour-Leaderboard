@@ -64,6 +64,7 @@ fs.writeFile(path, string, (err) => {
 
 if (!config.token) {
   console.log('Please insert the bot token into the config.json');
+  process.exit(1);
 }
 
 client.login(config.token);
