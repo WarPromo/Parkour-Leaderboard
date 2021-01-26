@@ -52,15 +52,13 @@ const config = {
 
 if (fs.existsSync(path)) {
    configFile = require('./config.json');
-   config.token = configFile.token;
-   config.guildId = configFile.guildId;
+   config.token = configFile.token || null;
+   config.guildId = configFile.guildId || null;
 }
 
 const string = JSON.stringify(config, null, 3);
 
-fs.writeFile(path, string, (err) => {
-  if (err) console.log(err.message);
-});
+fs.writeFileSync(path, string);
 
 if (!config.token) {
   console.log('Please insert the bot token into the config.json');
