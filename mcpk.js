@@ -81,7 +81,7 @@ client.on("message", async (message) =>{
 
   if (!config.guildId) return console.log('Please send the guild id in the config.json')
 
-  if(message.guild.id !== config.guildId) return;
+  if(message.guild.id != config.guildId) return;
 
   console.log("Got here");
 

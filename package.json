@@ -1,0 +1,25 @@
+{
+  "name": "parkour-leaderboard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mcpk.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WarPromo/Parkour-Leaderboard.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WarPromo/Parkour-Leaderboard/issues"
+  },
+  "homepage": "https://github.com/WarPromo/Parkour-Leaderboard#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.5",
+    "discord.js": "^11.6.4",
+    "fs": "0.0.1-security",
+    "request": "^2.88.2"
+  }
+}
