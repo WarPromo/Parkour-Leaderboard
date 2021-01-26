@@ -3,8 +3,13 @@ if(command == "m!createticket"){
   let category;
   let everyoneRole;
   let staffRole;
+  let channelName = message.channel.name;
 
-  if(message.channel.name != "claim-points") return message.channel.send("Command only allowed in claim-points channel");
+  if(channelName.includes("claim-points") == false && channelName != "bot-commands"){
+
+    return message.channel.send("Command only allowed in claim-points or bot-commands channel");
+
+  }
 
   message.guild.roles.forEach(role => {
     if(role.name == "@everyone") everyoneRole = role;

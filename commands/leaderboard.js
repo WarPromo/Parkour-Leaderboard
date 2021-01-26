@@ -91,12 +91,21 @@ if(command == "m!leaderboard"){
     let rankings = leaderboard[page];
 
     let players = "";
+    let points = "";
+    let places = "";
+
+
 
     for(var a = 0; a < rankings.length; a++){
-      players += `#${page*10 + a+1}.${rankings[a][0]}: ${rankings[a][1]} Points\n`;
+      places += `#${page*10 + a+1}\n`;
+      players += `${rankings[a][0]}\n`;
+      points += `${rankings[a][1]} Points\n`;
     }
 
-    embed.addField(`Leaderboard-${type}-${page}`, players);
+    embed.addField(`Place`, places, true);
+    embed.addField(`Leaderboard-${type}-${page}`, players, true);
+    embed.addField(`Points`, points, true)
+
 
     return embed;
 
