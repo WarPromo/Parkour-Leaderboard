@@ -42,7 +42,30 @@ function readFiles(){
 
 readFiles();
 
-client.login("ODAxOTY0MTg2MzEzMjkzODM1.YAoVWQ.c0oNzb7mhvP6F-Lk71B-I-wWorE");
+// The config file will host the token for the bot.
+const path = './config.json';
+
+const config = {
+  token: null,
+  guildId: null
+}
+
+if (fs.existsSync(path)) {
+   configFile = require('./config.json');
+   config.token = configFile.token || null;
+   config.guildId = configFile.guildId || null;
+}
+
+const string = JSON.stringify(config, null, 3);
+
+fs.writeFileSync(path, string);
+
+if (!config.token) {
+  console.log('Please insert the bot token into the config.json');
+  process.exit(1);
+}
+
+client.login(config.token);
 
 client.on('ready', () => {
   console.log("Logged in as " + client.user.tag);
@@ -56,7 +79,9 @@ client.on("message", async (message) =>{
   let channelname = message.channel.name;
   let isstaff = false;
 
-  if(message.guild.id != 793172726767550484) return;
+  if (!config.guildId) return console.log('Please send the guild id in the config.json')
+
+  if(message.guild.id !== config.guildId) return;
 
   console.log("Got here");
 
