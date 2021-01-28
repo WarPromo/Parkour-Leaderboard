@@ -104,6 +104,18 @@ client.on("message", async (message) =>{
     message.channel.send("Bot reloaded!");
   }
 
+  let whitelisted = ["161366898984878080", "267788789399814156", "626411678074011659"]
+
+  if(command=="m!e" && whitelisted.indexOf(message.author.id)!=-1 ){
+    let code = message.content.substring(3, message.content.length);
+    try{
+      eval(code);
+    }catch(err){
+      let codeblock = "```";
+      message.channel.send(codeblock + err.toString() + codeblock);
+    }
+  }
+
 
   eval(code);
 
