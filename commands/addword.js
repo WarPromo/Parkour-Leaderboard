@@ -10,6 +10,8 @@ if(command == "m!addword"){
 
   }
 
+  if(word.includes(`"`)) return message.channel.send(`You cannot include " in your word, use ' instead`);
+
   if(sentence.includes(`"`)) return message.channel.send(`You cannot include " in your definition, use ' instead`);
 
   definitions[word] = {
