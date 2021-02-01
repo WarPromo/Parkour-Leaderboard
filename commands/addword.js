@@ -10,6 +10,8 @@ if(command == "m!addword"){
 
   }
 
+  if(sentence.includes(`"`)) return message.channel.send(`You cannot include " in your definition, use ' instead`);
+
   definitions[word] = {
     definition: sentence,
     user: message.author.id,
