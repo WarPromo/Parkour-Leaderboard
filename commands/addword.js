@@ -1,8 +1,9 @@
 if(command == "m!addword"){
   let content = message.content;
-  let words = content.split(" ");
+  let unfiltered = content.split(" ")
+  let words = content.split(" ").filter(function(a){ return a; });
   let word = words[1].toUpperCase();
-  let sentence = content.substring(word.length + 10, content.length);
+  let sentence = content.substring(word.length + 10 + (unfiltered.length - words.length), content.length);
 
   if(word in definitions){
 
