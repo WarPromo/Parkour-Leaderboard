@@ -26,13 +26,13 @@ if(command == "m!createticket"){
     parent: category,
     permissionOverwrites: [{
       id: client.user.id,
-      allow: ['VIEW_CHANNEL']
+      allow: ['VIEW_CHANNEL','ATTACH_FILES','EMBED_LINKS','READ_MESSAGE_HISTORY']
     },{
       id: message.author.id,
-      allow: ['VIEW_CHANNEL']
+      allow: ['VIEW_CHANNEL','ATTACH_FILES','EMBED_LINKS','READ_MESSAGE_HISTORY']
     },{
       id: staffRole.id,
-      allow: ['VIEW_CHANNEL']
+      allow: ['VIEW_CHANNEL','ATTACH_FILES','EMBED_LINKS','READ_MESSAGE_HISTORY']
     },{
       id: everyoneRole.id,
       deny: ['VIEW_CHANNEL']
