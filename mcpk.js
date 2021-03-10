@@ -13,7 +13,7 @@ let database = JSON.parse(fs.readFileSync("points.json", "utf8"));
 let maps = JSON.parse(fs.readFileSync("maps.json", "utf8"));
 let collections = JSON.parse(fs.readFileSync("collections.json", "utf8"));
 let adminCommands = ["m!addpoints", "m!removepoints", "m!addmap", "m!removemap", "m!createmap", "m!deletemap", "m!createcollection", "m!addcollection", "m!deletecollection", "m!closeticket", "m!reload", "!e"]
-
+let definitions = JSON.parse(fs.readFileSync("definitions.json", "utf8"));
 
 let code = "";
 
