@@ -22,7 +22,6 @@ let searchedCommands = {
 
 };
 
-
 function readFiles(){
   fs.readdir("./commands", (err, files) => {
     files.forEach(async file => {
@@ -163,35 +162,40 @@ function sortObject(object){
 }
 
 function addPointRoles(person, currentpoints){
-  let theirrole;
+    let isFound = false;
+    let correctRole = 'nothing';
+    let wrongRoles = [];
 
-  person.roles.forEach(role => {
-    if(role.name.startsWith("|")){
-      theirrole = role;
+    let roleArray = [];
+
+    person.guild.roles.forEach(role => {
+        if(role.name.startsWith('|')) roleArray.push(role.name);
+    });
+
+    roleArray.sort(function(a, b){return a - b;});
+
+    async function modifyRoles(){
+        for(let i = 0; i < roleArray.length; i++){
+            let role = person.guild.roles.find(r => r.name === roleArray[i]);
+            let number = parseInt(role.name.split(" ")[1]);
+            if(currentpoints >= number){
+                if(isFound == false){
+                  correctRole = role.id;
+                  isFound = true;
+                }
+                else{
+                  if(person.roles.has(role.id)) wrongRoles.push(role.id);
+                }
+            }
+            else{
+                if(person.roles.has(role.id)) wrongRoles.push(role.id);
+            }
+        }
+        if(!(person.roles.has(correctRole))) await person.addRole(correctRole, `Fixing ${person.user.username}'s point roles`);
+        if(wrongRoles.length > 0) await person.removeRoles(wrongRoles, `Fixing ${person.user.username}'s point roles`);
     }
-  })
-
-  let bestrole;
-  let bestroleNumber = -1;
-
-  person.guild.roles.forEach(role => {
-    if(role.name.startsWith("|")){
-      let number = parseInt(role.name.split(" ")[1]);
-      if(currentpoints >= number && number >= bestroleNumber){
-        bestrole = role;
-        bestroleNumber = number;
-      }
-    }
-  });
-
-  if(bestrole.name != theirrole.name){
-    if(bestrole){
-      person.addRole(bestrole).then(() => {
-        person.removeRole(theirrole);
-      });
-    }
-  }
-
+    modifyRoles();
+    console.log(`Modified ${person.user.username}'s point roles`);
 }
 
 function refreshUser(person){
