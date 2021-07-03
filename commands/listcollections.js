@@ -2,8 +2,14 @@ if(command == "m!listcollections"){
 
   let pageNumber = 0;
 
-  let array = createCollectionArray();
-  let embed = collectionEmbed(0, array);
+  let filter = "None";
+
+  if(args[1]) filter = args[1];
+
+  console.log(filter);
+
+  let array = createCollectionArray(filter);
+  let embed = collectionEmbed(0, array, filter);
 
   let embedMessage = await message.channel.send(embed);
 
@@ -20,7 +26,7 @@ if(command == "m!listcollections"){
 
   collector.on("collect", async (element, collector) => {
 
-    let currentArray = createCollectionArray();
+    let currentArray = createCollectionArray(filter);
     let embed;
     let user = element.users.last();
 
@@ -32,7 +38,7 @@ if(command == "m!listcollections"){
     if(pageNumber < 0) pageNumber = 0;
     if(pageNumber > currentArray.length-1) pageNumber = currentArray.length-1;
 
-    embed = collectionEmbed(pageNumber, currentArray);
+    embed = collectionEmbed(pageNumber, currentArray, filter);
 
     embedMessage.edit( embed );
     element.remove( user );
@@ -43,12 +49,18 @@ if(command == "m!listcollections"){
 
 }
 
-function createCollectionArray(){
+function createCollectionArray(filter="None"){
 
   let arr = [];
   let keys = Object.keys(collections);
 
+  console.log(filter);
+
   for(var a = 0; a < keys.length; a++){
+
+    console.log(filter);
+
+    if(keys[a].includes(filter) == false && filter != "None") continue;
 
     let arr2 = [keys[a]];
     let arr3 = [];
@@ -70,7 +82,7 @@ function createCollectionArray(){
 }
 
 
-function collectionEmbed(page, arr){
+function collectionEmbed(page, arr, filter){
 
   let embed = new Discord.RichEmbed();
 
@@ -87,8 +99,12 @@ function collectionEmbed(page, arr){
 
   collection = arr[page];
 
-  embed.addField("Collections", `Page ${page}`);
+  console.log("Got here")
+
+  embed.addField("Collections", `Page ${page}\nFilter: ${filter}`);
   embed.addField("Collection: ", collection[0]);
+
+  console.log("Got here2")
 
   for(var a = 0; a < collection[1].length; a++){
     embed.addField(`${collection[1][a][0]}`, `Points: ${collection[1][a][1]}\n Type: ${collection[1][a][2]}`, true);
