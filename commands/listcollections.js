@@ -9,7 +9,11 @@ if(command == "m!listcollections"){
   console.log(filter);
 
   let array = createCollectionArray(filter);
+
+  if(array.length == 0) return message.channel.send(`0 results found`)
+
   let embed = collectionEmbed(0, array, filter);
+
 
   let embedMessage = await message.channel.send(embed);
 
