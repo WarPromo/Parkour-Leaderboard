@@ -33,7 +33,7 @@ if(command === 'm!mapstats' || command == 'm!ms'){
 
   let reactionCollector = statsMessage.createReactionCollector(reactionFilter, {time: 120000});
 
-  reactionCollector.on("collect", (reaction, collector) => {
+  reactionCollector.on("collect", (reaction, user) => {
 
     let emoji = reaction._emoji.name;
 
@@ -47,8 +47,7 @@ if(command === 'm!mapstats' || command == 'm!ms'){
 
     statsMessage.edit(embed);
 
-    let user = reaction.users.last();
-    reaction.remove(user);
+    reaction.users.remove(user);
 
   })
 
@@ -56,7 +55,7 @@ if(command === 'm!mapstats' || command == 'm!ms'){
 
     let playerString = `Page ${pageNumber}/${Math.floor(playerAmount/10)}\n\`\`\``;
 
-    let statsEmbed = new Discord.RichEmbed();
+    let statsEmbed = new Discord.MessageEmbed();
     statsEmbed.setTitle(`Map Stats - ${map}`)
               .setColor("#FD0061")
               .addField("Map Type:", maps[map]["type"])

@@ -28,16 +28,13 @@ if(command == "m!listcollections"){
 
   let collector = embedMessage.createReactionCollector(reactionFilter, { time: 120000 })
 
-  collector.on("collect", async (element, collector) => {
+  collector.on("collect", async (reaction, user) => {
 
     let currentArray = createCollectionArray(filter);
     let embed;
-    let user = element.users.last();
 
-    console.log(Object.keys(element));
-
-    if(element._emoji.name == "▶️") pageNumber++;
-    if(element._emoji.name == "◀️") pageNumber--;
+    if(reaction.emoji.name == "▶️") pageNumber++;
+    if(reaction.emoji.name == "◀️") pageNumber--;
 
     if(pageNumber < 0) pageNumber = 0;
     if(pageNumber > currentArray.length-1) pageNumber = currentArray.length-1;
@@ -45,7 +42,7 @@ if(command == "m!listcollections"){
     embed = collectionEmbed(pageNumber, currentArray, filter);
 
     embedMessage.edit( embed );
-    element.remove( user );
+    reaction.users.remove( user );
 
   })
 
@@ -88,7 +85,7 @@ function createCollectionArray(filter="None"){
 
 function collectionEmbed(page, arr, filter){
 
-  let embed = new Discord.RichEmbed();
+  let embed = new Discord.MessageEmbed();
 
   /*
   arr =

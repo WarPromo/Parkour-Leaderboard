@@ -31,13 +31,12 @@ if(command == "m!search"){
 
     let collector = embedMessage.createReactionCollector(reactionFilter, { time: 120000 })
 
-    collector.on("collect", async (element, collector) => {
+    collector.on("collect", async (reaction, user) => {
 
       let embed;
-      let user = element.users.last();
 
-      if(element._emoji.name == "▶️") pageNumber++;
-      if(element._emoji.name == "◀️") pageNumber--;
+      if(reaction.emoji.name == "▶️") pageNumber++;
+      if(reaction.emoji.name == "◀️") pageNumber--;
 
       if(pageNumber < 0) pageNumber = 0;
       if(pageNumber > searchResults.length-1) pageNumber = searchResults.length-1;
@@ -45,7 +44,7 @@ if(command == "m!search"){
       embed = createEmbed(pageNumber);
 
       embedMessage.edit( embed );
-      element.remove( user );
+      reaction.users.remove( user );
 
     })
 
@@ -98,7 +97,7 @@ if(command == "m!search"){
 
   function createEmbed(page){
 
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     let wikipage = searchResults[page];
 
     embed.addField("MCPK SEARCH", `PAGE ${page} ${term}`)

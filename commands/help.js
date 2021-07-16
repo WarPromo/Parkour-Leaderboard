@@ -4,7 +4,7 @@ if(command == "m!help"){
 ${string}
 m!createticket : Create a channel that only you, and staff can see
 
-m!profile <@user> <amount> : View the profile of a player
+m!profile <@user> : View the profile of a player
 
 m!addpoints <@user> <amount> : Add points or a map to a player
 
@@ -29,6 +29,12 @@ m!deletecollection <CollectionName> : Remove a Collection
 m!listcollections : List collections
 
 m!map <keyword> : Search for map names with a keyword
+
+m!calclove <user1> <user2> : Calculate the love % between two users
+
+m!luckylb : See the leaderboard of luckiness scores
+
+m!renamemap <map> <newname> : Rename a map
 ${string}
     `)
 }

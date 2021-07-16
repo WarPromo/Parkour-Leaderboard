@@ -1,5 +1,8 @@
 
-if(command == "m!leaderboard"){
+if(command == "m!leaderboard" || command == "m!lb"){
+
+  const disbut = require("discord-buttons")
+
   let keys = Object.keys(database);
   let type = args[1];
   let page = Math.floor( parseInt(args[2]) / 10 );
@@ -20,22 +23,49 @@ if(command == "m!leaderboard"){
 
   embed = createEmbed(page, leaderboard, type);
 
-  let embedMessage = await message.channel.send(embed);
+  let doubleback = new disbut.MessageButton()
+    .setStyle('blurple')
+    .setLabel('⏪')
+    .setID('doubleback')
 
-  await embedMessage.react("◀️");
-  await embedMessage.react("▶️");
+  let back = new disbut.MessageButton()
+    .setStyle('blurple')
+    .setLabel('◀️')
+    .setID('backward')
 
-  let collector = embedMessage.createReactionCollector(reactionFilter, { time: 120000 })
+  let forward = new disbut.MessageButton()
+    .setStyle('blurple')
+    .setLabel('▶️')
+    .setID('forward')
 
-  collector.on("collect", async (element, collector) => {
+  let doublefor = new disbut.MessageButton()
+    .setStyle('blurple')
+    .setLabel('⏩')
+    .setID('doublefor')
+
+  let row = new disbut.MessageActionRow()
+    .addComponents(doubleback, back, forward, doublefor);
+
+  let embedMessage = await message.channel.send(embed, row);
+
+  //await embedMessage.react("◀️");
+  //await embedMessage.react("▶️");
+
+  //let collector = embedMessage.createReactionCollector(reactionFilter, { time: 120000 })
+
+  client.on("clickButton", button)
+
+  async function button(button){
 
     let embed;
-    let user = element.users.last();
 
     leaderboard = leaderboardArray(type, keys);
 
-    if(element._emoji.name == "▶️") page++;
-    if(element._emoji.name == "◀️") page--;
+    //button.reply.send("Edited", true);
+    if(button.id == ("doublefor")) page+=2;
+    if(button.id == ("forward")) page++;
+    if(button.id == ("backward")) page--;
+    if(button.id == ("doubleback")) page-=2;
 
     if(page < 0) page = 0;
     if(page > leaderboard.length-1) page = leaderboard.length-1;
@@ -43,9 +73,13 @@ if(command == "m!leaderboard"){
     embed = createEmbed(page, leaderboard, type);
 
     embedMessage.edit( embed );
-    element.remove( user );
 
-  })
+    button.reply.defer();
+    //reaction.users.remove( user );
+
+
+    //button.reply(button.clicker.user.tag + " clicked the button");
+  }
 
   function reactionFilter(reaction, user){
     if(user == client.user) return false;
@@ -87,7 +121,7 @@ if(command == "m!leaderboard"){
 
   function createEmbed(page, leaderboard, type){
 
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     let rankings = leaderboard[page];
 
     let players = "";

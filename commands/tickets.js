@@ -1,54 +1,38 @@
+
+const disbut = require("discord-buttons")
+
+
+if(command == "m!sendticketmessage"){
+
+  let btn = new disbut.MessageButton()
+    .setStyle('green')
+    .setLabel('        🤯        ')
+    .setID("createTicket")
+  message.channel.send('Create a ticket?', {
+    button: btn
+  })
+
+}
+
 if(command == "m!createticket"){
 
-  let category;
-  let everyoneRole;
-  let staffRole;
-  let channelName = message.channel.name;
-
-  if(channelName.includes("claim-points") == false && channelName != "bot-commands"){
-
-    return message.channel.send("Command only allowed in claim-points or bot-commands channel");
-
+  if(message.author.id in currentTickets){
+    message.delete();
+    return;
   }
 
-  message.guild.roles.forEach(role => {
-    if(role.name == "@everyone") everyoneRole = role;
-  })
+  createTicket(message.author, message)
 
-  message.guild.roles.forEach(role => {
-    if(role.name == "Staff") staffRole = role;
-  })
-
-  category = message.channel.parent
-
-  message.guild.createChannel(`Ticket ${ticketcounter} User ${message.author.tag}`, {
-    type: 'text',
-    parent: category,
-    permissionOverwrites: [{
-      id: client.user.id,
-      allow: ['VIEW_CHANNEL','ATTACH_FILES','EMBED_LINKS','READ_MESSAGE_HISTORY']
-    },{
-      id: message.author.id,
-      allow: ['VIEW_CHANNEL','ATTACH_FILES','EMBED_LINKS','READ_MESSAGE_HISTORY']
-    },{
-      id: staffRole.id,
-      allow: ['VIEW_CHANNEL','ATTACH_FILES','EMBED_LINKS','READ_MESSAGE_HISTORY']
-    },{
-      id: everyoneRole.id,
-      deny: ['VIEW_CHANNEL']
-    }]
-  });
-
-  console.log("Channel created!");
-
-  ticketcounter++;
-
+  currentTickets[message.author.id] = true;
   message.delete();
 
 }
 
 if(command == "m!closeticket"){
   if(message.channel.name.includes("ticket")){
+    let id = message.channel.name.split("-")
+    id = id[id.length-1];
+    delete currentTickets[id];
     message.channel.delete();
   }
   else message.channel.send("This is not a ticket channel");

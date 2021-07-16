@@ -11,6 +11,10 @@ if(command == "m!listmaps"){
     arr = arr.filter(element => element[2]+"" == args[1]+"");
   }
 
+  console.log(arr.length)
+
+  if(arr.length == 0) return message.channel.send("*0 results found*")
+
   pages = createArray(arr);
   embed = createEmbed(page);
 
@@ -21,13 +25,12 @@ if(command == "m!listmaps"){
 
   let collector = embedMessage.createReactionCollector(reactionFilter, { time: 120000 })
 
-  collector.on("collect", async (element, collector) => {
+  collector.on("collect", async (reaction, user) => {
 
     let embed;
-    let user = element.users.last();
 
-    if(element._emoji.name == "▶️") page++;
-    if(element._emoji.name == "◀️") page--;
+    if(reaction.emoji.name == "▶️") page++;
+    if(reaction.emoji.name == "◀️") page--;
 
     if(page < 0) page = 0;
     if(page > pages.length-1) page = pages.length-1;
@@ -35,7 +38,7 @@ if(command == "m!listmaps"){
     embed = createEmbed(page);
 
     embedMessage.edit( embed );
-    element.remove( user );
+    reaction.users.remove( user );
 
   })
 
@@ -47,7 +50,7 @@ if(command == "m!listmaps"){
 
   function createEmbed(page){
     let part = pages[page];
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
 
     embed.addField("Maps", `Page ${page} ${filter}`);
 

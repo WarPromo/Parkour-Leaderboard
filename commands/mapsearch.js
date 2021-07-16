@@ -6,12 +6,9 @@ if(command == "m!map"){
   let embed;
 
   if(!map) return message.channel.send("Provide a map");
-
-  console.log("Got here")
+  if(pages.length == 0) return message.channel.send("0 results");
 
   embed = createEmbed(page);
-
-
 
   let embedMessage = await message.channel.send(embed);
 
@@ -20,13 +17,12 @@ if(command == "m!map"){
 
   let collector = embedMessage.createReactionCollector(reactionFilter, { time: 120000 })
 
-  collector.on("collect", async (element, collector) => {
+  collector.on("collect", async (reaction, user) => {
 
     let embed;
-    let user = element.users.last();
 
-    if(element._emoji.name == "▶️") page++;
-    if(element._emoji.name == "◀️") page--;
+    if(reaction.emoji.name == "▶️") page++;
+    if(reaction.emoji.name == "◀️") page--;
 
     if(page < 0) page = 0;
     if(page > pages.length-1) page = pages.length-1;
@@ -34,14 +30,14 @@ if(command == "m!map"){
     embed = createEmbed(page);
 
     embedMessage.edit( embed );
-    element.remove( user );
+    reaction.users.remove( user );
 
   })
 
   function createEmbed(page){
 
 
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     let list = pages[page];
 
     embed.addField("Map Search", `${map} Page ${page} \nResults: ${list.length}`);

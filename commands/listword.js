@@ -84,7 +84,7 @@ if(command == 'm!word'){
 
     for( list in words ){
       //list is basically the page oh gotchu
-      let embed = new Discord.RichEmbed();
+      let embed = new Discord.MessageEmbed();
       let group = words[list];
       embed.setColor("#FF0061")
 
