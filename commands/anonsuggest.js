@@ -3,6 +3,16 @@
 if(command == "m!anonsuggest"){
 
   message.delete();
+
+  if(message.channel.name.includes("suggestions") == false){
+    message.channel.send("You can only use that command in a suggestions channel").then(m => {
+      setTimeout(() => {
+        m.delete();
+      }, 3000);
+    })
+    return;
+  }
+
   let channel = message.guild.channels.cache.find( channel => channel.name == "polls" )
 
   if(!channel) return;
