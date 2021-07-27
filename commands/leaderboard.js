@@ -63,10 +63,13 @@ if(command == "m!leaderboard" || command == "m!lb"){
   async function button(button){
 
     let embed;
+    
+    if(button.id.includes(id) == false) return; 
 
     leaderboard = leaderboardArray(type, keys);
 
     //button.reply.send("Edited", true);
+    
     if(button.id == ("doublefor"+id)) page+=2;
     if(button.id == ("forward"+id)) page++;
     if(button.id == ("backward"+id)) page--;
