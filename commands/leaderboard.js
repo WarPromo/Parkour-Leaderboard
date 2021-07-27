@@ -22,29 +22,34 @@ if(command == "m!leaderboard" || command == "m!lb"){
   if(page < 0) page = 0;
 
   embed = createEmbed(page, leaderboard, type);
-
+  
+  
+  let id = Date.now();
+  
   let doubleback = new disbut.MessageButton()
     .setStyle('blurple')
     .setLabel('⏪')
-    .setID('doubleback')
+    .setID('doubleback'+id)
 
   let back = new disbut.MessageButton()
     .setStyle('blurple')
     .setLabel('◀️')
-    .setID('backward')
+    .setID('backward'+id)
 
   let forward = new disbut.MessageButton()
     .setStyle('blurple')
     .setLabel('▶️')
-    .setID('forward')
+    .setID('forward'+id)
 
   let doublefor = new disbut.MessageButton()
     .setStyle('blurple')
     .setLabel('⏩')
-    .setID('doublefor')
+    .setID('doublefor'+id)
 
   let row = new disbut.MessageActionRow()
     .addComponents(doubleback, back, forward, doublefor);
+  
+  
 
   let embedMessage = await message.channel.send(embed, row);
 
@@ -62,10 +67,10 @@ if(command == "m!leaderboard" || command == "m!lb"){
     leaderboard = leaderboardArray(type, keys);
 
     //button.reply.send("Edited", true);
-    if(button.id == ("doublefor")) page+=2;
-    if(button.id == ("forward")) page++;
-    if(button.id == ("backward")) page--;
-    if(button.id == ("doubleback")) page-=2;
+    if(button.id == ("doublefor"+id)) page+=2;
+    if(button.id == ("forward"+id)) page++;
+    if(button.id == ("backward"+id)) page--;
+    if(button.id == ("doubleback"+id)) page-=2;
 
     if(page < 0) page = 0;
     if(page > leaderboard.length-1) page = leaderboard.length-1;
