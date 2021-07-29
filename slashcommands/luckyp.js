@@ -111,7 +111,7 @@ function embedPages(player){
   embed.addField("Ranking", `#${ranking}`);
   embed.addField("Points", `${luckydb[player.id].points}`);
   embed.addField("Messages", `${luckydb[player.id].messagecount}`);
-  embed.addField("Luckiness", `${ ((luckydb[player.id].points / luckydb[player.id].messagecount)+"").substring(0, 6) }`);
+  embed.addField("Luckiness", `${ Math.floor( ( ( luckydb[player.id].points / calculateLuck(luckydb[player.id].messagecount) )*100 ) / 100 }`);
   embed.setThumbnail(player.user.avatarURL());
   embed.setColor("#00fc43");
 
@@ -186,4 +186,11 @@ function sortLuck(object){
 
   return arr;
 
+}
+
+function calculateLuck(total, counter = 0, totalpoints = 0){
+  if(10**counter * 1000 > total ){
+    return totalpoints
+  }
+  return calculateLuck(total, counter+1, totalpoints + (total / ( 10**counter * 1000) ) * 10**counter )
 }
