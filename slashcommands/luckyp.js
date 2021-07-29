@@ -110,8 +110,8 @@ function embedPages(player){
   embed.addField("Player", luckydb[player.id].tag );
   embed.addField("Ranking", `#${ranking}`);
   embed.addField("Points", `${luckydb[player.id].points}`);
-  embed.addField("Messages", `${luckydb[player.id].messagecount}`);
-  embed.addField("Luckiness", `${ Math.floor( ( ( luckydb[player.id].points / calculateLuck(luckydb[player.id].messagecount) )*100 ) / 100 }`);
+  embed.addField("Messages", `${Math.floor( ( luckydb[player.id].points/calculateLuck(luckydb[player.id].messagecount)*100 ) / 100 )}`);
+  embed.addField("Luckiness", `${ }`);
   embed.setThumbnail(player.user.avatarURL());
   embed.setColor("#00fc43");
 
