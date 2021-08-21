@@ -1,4 +1,7 @@
 if(message.channel.name == "polls"){
-  message.react("🤷‍♂️");
-  message.react("↕️");
+  setTimeout(function(){
+    message.react("🤷‍♂️");
+    message.react("↕️");
+  }, 500)
+
 }
